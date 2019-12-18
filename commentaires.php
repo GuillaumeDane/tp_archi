@@ -47,7 +47,6 @@
 					echo "<p>".$tableau['contenu']."</p>";
 				}
 			}
-			
 			$req="SELECT * FROM comment";
 			$res=mysqli_query($lien,$req);
 			if(!$res)
@@ -56,19 +55,32 @@
 			}
 			else
 			{
-				$nbcomm=mysqli_num_rows($res); // Retourne le nombre de lignes dans un résultat. 
-				$liste=mysqli_fetch_array($res);
-				$nbpages=ceil($nbcomm/$commparpage); /*Ceil arrondit a l'entier supérieur*/
+				$nbcomm=mysqli_num_rows($res); // Retourne le nombre de lignes dans un rÃ©sultat.
 				echo "<br> Pages : ";
 				echo "<a href='commentaires.php?page=1'> << </a>";
-				echo "<a href='commentaires.php?page=(".($page-1).")'> < </a>";
-				for($i=($page-2);$i<=($page+2);$i++)
+				if($page == '1')
+				{
+					echo "<a href='commentaires.php?page=1'> < </a>";	
+				}
+				else
+				{
+					echo "<a href='commentaires.php?page=".($page-1)."'> < </a>";
+				}
+
+				for($i=($page);$i<=($page);$i++)
 				{
 					echo "<a href='commentaires.php?page=$i'> $i </a>";
 				}
+				$nbpagesmax=ceil($nbcomm/$commparpage);
+				if($page == $nbpagesmax)
+				{
+					echo "<a href='commentaires.php?page=".($nbpagesmax)."'> > </a>";
+				}
+				else
+				{
+					echo "<a href='commentaires.php?page=".($page+1)."'> > </a>";
+				}
+				echo "<a href='commentaires.php?page=".($nbpagesmax)."'> >> </a>";
 			}
-			echo "<a href='commentaires.php?page=".($page+1)."'> > </a>";
-			echo "<a href='commentaires.php?page=$nbpages'> >> </a>";
-			
 			mysqli_close($lien);
-		?>																			
+		?>
